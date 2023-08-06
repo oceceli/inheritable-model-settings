@@ -1,0 +1,29 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up()
+    {
+        Schema::create('inheritable_model_settings', function (Blueprint $table) {
+            $table->id();
+            $table->uuidMorphs('model');
+            $table->string('key');
+            $table->text('value')->nullable();
+            $table->timestamps();
+
+            $table->unique(['model_type', 'model_id', 'key']);
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('inheritable_model_settings');
+    }
+};
